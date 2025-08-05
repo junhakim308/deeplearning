@@ -1,11 +1,4 @@
 name: deeplearning
 channels:
   - defaults
-dependencies:
-  - python=3.9
-  - torchaudio
-  - torchvision
-  - pytorch
-  - numpy=1.26
-  - jupyter
-prefix: /opt/anaconda3/envs/deeplearning
+prefix: /home/fmtcpc5/anaconda3/envs/deeplearning
