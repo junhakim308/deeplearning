@@ -7,6 +7,7 @@ import torch.nn.functional as F # All functions that don't have any parameters
 from torch.utils.data import DataLoader # Gives easier dataset managment and creates mini batches
 import torchvision.datasets as datasets # Has standard datasets we can import in a nice and easy way
 import torchvision.transforms as transforms # Transformations we can perform on our dataset
+from tqdm import tqdm
 
 #Create Fully Connected Network
 class NN(nn.Module):
@@ -25,14 +26,14 @@ class NN(nn.Module):
 #print(model(x).shape)
 
 #Set device
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cuda' if torch.cuda.is_available() else 'mps')
 
 #Hyperparameters
 input_size = 784 # 28x28 = 784, size of MNIST images (grayscale)
 num_classes = 10
 learning_rate = 0.001
 batch_size = 64
-num_epochs = 1
+num_epochs = 3
 
 #Load Data
 train_dataset = datasets.MNIST(root='dataset/', train=True, transform=transforms.ToTensor(), download=True)
@@ -49,8 +50,8 @@ optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
 #Train Network
 for epoch in range(num_epochs):
-    print(f"Epoch: {epoch+1}")
-    for batch_idx, (data, targets) in enumerate(train_loader):
+    loop = tqdm(train_loader, desc=f'Training, Epoch [{epoch+1}/{num_epochs}]')
+    for batch_idx, (data, targets) in enumerate(loop):
         # Get data to cuda if possible
         data = data.to(device=device)
         targets = targets.to(device=device)
@@ -71,6 +72,7 @@ for epoch in range(num_epochs):
 
         # gradient descent or adam step
         optimizer.step()
+        loop.set_postfix(loss=loss.item())
 
 
 #Check accuracy on training & test to see how good our model is

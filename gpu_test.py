@@ -11,7 +11,7 @@ import torchvision
 import torchvision.transforms as transforms
 
 # device setting, nvidia='cuda:0' | m1='mps' | cpu='cpu'
-DEVICE = 'cpu'    # "cuda:0" or "mps" or "cpu"
+DEVICE = 'mps'    # "cuda:0" or "mps" or "cpu"
 
 EPOCHS = 20
 BATCH_SIZE = 16 
